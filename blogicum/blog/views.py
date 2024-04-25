@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import Http404
 
 posts = [
     {
@@ -43,11 +44,7 @@ posts = [
     },
 ]
 
-dict_post_ids = {}
-counter = 0
-for post in posts:
-    dict_post_ids[post["id"]] = counter
-    counter += 1
+FORMATTED_POSTS = {post['id']: post for post in posts}
 
 
 def index(request):
@@ -58,8 +55,11 @@ def index(request):
 
 def post_detail(request, post_id):
     template = 'blog/detail.html'
+    try:
+        context = {'post': FORMATTED_POSTS[post_id]}
+    except KeyError:
+        raise Http404("Такой записи не существует.")
 
-    context = {'post': posts[dict_post_ids[post_id]]}
     return render(request, template, context)
 
 

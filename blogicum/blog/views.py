@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 posts = [
     {
-        'id': 0,
+        'id': 13,
         'location': 'Остров отчаянья',
         'date': '30 сентября 1659 года',
         'category': 'travel',
@@ -14,7 +14,7 @@ posts = [
                 который назвал островом Отчаяния.''',
     },
     {
-        'id': 1,
+        'id': 11,
         'location': 'Остров отчаянья',
         'date': '1 октября 1659 года',
         'category': 'not-my-day',
@@ -43,6 +43,12 @@ posts = [
     },
 ]
 
+dict_post_ids = {}
+counter = 0
+for post in posts:
+    dict_post_ids[post["id"]] = counter
+    counter += 1
+
 
 def index(request):
     template = 'blog/index.html'
@@ -50,9 +56,10 @@ def index(request):
     return render(request, template, context)
 
 
-def post_detail(request, id):
+def post_detail(request, post_id):
     template = 'blog/detail.html'
-    context = {'post': posts[id]}
+
+    context = {'post': posts[dict_post_ids[post_id]]}
     return render(request, template, context)
 
 

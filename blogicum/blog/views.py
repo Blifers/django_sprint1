@@ -49,7 +49,7 @@ FORMATTED_POSTS = {post['id']: post for post in posts}
 
 def index(request):
     template = 'blog/index.html'
-    context = {'posts': posts}
+    context = {'posts': reversed(posts)}
     return render(request, template, context)
 
 
